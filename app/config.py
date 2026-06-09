@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 15
     refresh_token_expire_days: int = 7
 
+    log_level: str = "INFO"
+    log_file: str = "auth.log"
+
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
 

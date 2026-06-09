@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,6 +8,13 @@ from app.config import settings
 from app.database import engine, Base
 from app.core.middleware import log_requests
 from app.api.v1 import auth, users
+
+logging.basicConfig(
+    filename=settings.log_file,
+    level=getattr(logging, settings.log_level.upper()),
+    format="%(asctime)s — %(name)s — %(levelname)s — %(message)s",
+)
+
 
 
 @asynccontextmanager
