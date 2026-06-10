@@ -21,3 +21,7 @@ class UserRepository:
         self.db.commit()
         self.db.refresh(user)
         return user
+
+    def delete_by_id(self, user_id: str) -> None:
+        self.db.query(User).filter(User.id == user_id).delete()
+        self.db.commit()

@@ -28,8 +28,11 @@ def get_auth_service(
     return AuthService(user_repo, session_repo)
 
 
-def get_user_service(user_repo: UserRepository = Depends(get_user_repo)) -> UserService:
-    return UserService(user_repo)
+def get_user_service(
+    user_repo: UserRepository = Depends(get_user_repo),
+    session_repo: SessionRepository = Depends(get_session_repo),
+) -> UserService:
+    return UserService(user_repo, session_repo)
 
 
 def get_token_service(user_repo: UserRepository = Depends(get_user_repo)) -> TokenService:

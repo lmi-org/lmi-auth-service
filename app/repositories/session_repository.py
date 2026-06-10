@@ -28,3 +28,7 @@ class SessionRepository:
             SessionModel.user_id == user_id, SessionModel.is_revoked == False
         ).update({"is_revoked": True, "revoked_at": datetime.now(timezone.utc)})
         self.db.commit()
+
+    def delete_user_sessions(self, user_id: str) -> None:
+        self.db.query(SessionModel).filter(SessionModel.user_id == user_id).delete()
+        self.db.commit()
