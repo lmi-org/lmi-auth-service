@@ -54,6 +54,14 @@ def test_get_profile_unauthenticated(client):
     assert response.status_code == 401
 
 
+def test_delete_account(client, auth_headers, test_user):
+    response = client.delete("/api/v1/users/me", headers=auth_headers)
+    assert response.status_code == 204
+
+    response = client.post("/api/v1/auth/login", json={"email": "test@example.com", "password": "password123"})
+    assert response.status_code == 401
+
+
 def test_health(client):
     response = client.get("/health")
     assert response.status_code == 200
