@@ -14,7 +14,7 @@ Authentication microservice for the LMI platform.
 ```bash
 uv sync --extra dev
 cp .env.example .env
-docker compose up -d db          # start PostgreSQL
+docker compose up -d db
 uv run uvicorn app.main:app --reload --port 8000
 ```
 
