@@ -5,10 +5,10 @@ os.environ["DATABASE_URL"] = "sqlite:///./test.db"
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import app
-from app.database import Base, engine, SessionLocal
-from app.models.user import User
 from app.core.security import hash_password
+from app.database import Base, SessionLocal, engine
+from app.main import app
+from app.models.user import User
 
 
 @pytest.fixture(autouse=True)
