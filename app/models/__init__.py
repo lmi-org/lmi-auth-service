@@ -1,1 +1,1 @@
-from app.models.email_verification import EmailVerification as EmailVerification
+from app.models.email_verification import EmailVerification
