@@ -1,7 +1,7 @@
-from app.repositories.user_repository import UserRepository
-from app.repositories.session_repository import SessionRepository
-from app.models.user import User
 from app.core.exceptions import NotFoundError
+from app.models.user import User
+from app.repositories.session_repository import SessionRepository
+from app.repositories.user_repository import UserRepository
 
 
 class UserService:

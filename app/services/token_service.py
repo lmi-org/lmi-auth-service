@@ -1,5 +1,5 @@
-from app.core.security import decode_token
 from app.core.exceptions import CredentialsError
+from app.core.security import decode_token
 from app.repositories.user_repository import UserRepository
 
 
