@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lmi_auth
+      POSTGRES_USER: lmi_user
+      POSTGRES_PASSWORD: change_me
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://lmi_user:change_me@db:5432/lmi_auth
+      SECRET_KEY: dev_secret_key_not_for_production
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
