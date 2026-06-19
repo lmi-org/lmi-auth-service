@@ -1,10 +1,17 @@
 from fastapi import APIRouter, Depends, status
 
-from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, RefreshRequest, LogoutRequest
-from app.schemas.user import UserResponse
-from app.services.auth_service import AuthService
-from app.models.user import User
 from app.api.deps import get_auth_service, get_current_user
+from app.models.user import User
+from app.schemas.auth import (
+    LoginRequest,
+    LogoutRequest,
+    RefreshRequest,
+    RegisterRequest,
+    RequestVerificationResponse,
+    TokenResponse,
+    VerifyEmailRequest,
+)
+from app.services.auth_service import AuthService
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
@@ -33,5 +40,23 @@ def logout(body: LogoutRequest, auth: AuthService = Depends(get_auth_service)):
 
 
 @router.post("/logout-all", status_code=status.HTTP_204_NO_CONTENT)
-def logout_all(current_user: User = Depends(get_current_user), auth: AuthService = Depends(get_auth_service)):
+def logout_all(
+    current_user: User = Depends(get_current_user),
+    auth: AuthService = Depends(get_auth_service),
+):
     auth.logout_all(current_user.id)
+
+
+@router.post("/request-verification")
+def request_verification(
+    current_user: User = Depends(get_current_user),
+    auth: AuthService = Depends(get_auth_service),
+):
+    token = auth.request_verification(current_user.id)
+    return RequestVerificationResponse(message="Verification email sent", token=token)
+
+
+@router.post("/verify-email", status_code=status.HTTP_200_OK)
+def verify_email(body: VerifyEmailRequest, auth: AuthService = Depends(get_auth_service)):
+    auth.verify_email(body.token)
+    return {"message": "Email verified successfully"}

@@ -46,6 +46,21 @@ def test_user(db):
 
 
 @pytest.fixture
+def unverified_user(db):
+    user = User(
+        email="unverified@example.com",
+        username="unverified",
+        display_name="Unverified User",
+        hashed_password=hash_password("password123"),
+        is_verified=False,
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@pytest.fixture
 def auth_headers(client, test_user):
     response = client.post("/api/v1/auth/login", json={"email": "test@example.com", "password": "password123"})
     token = response.json()["access_token"]
